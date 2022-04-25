@@ -1,4 +1,3 @@
-
 function initializeGrid(rows, columns){
     const container = document.createElement('div');
     container.setAttribute('style', 'display: flex; flex-direction: column; margin: 0; width: 100%; height: 100%;');
@@ -35,12 +34,25 @@ button.addEventListener('click', () => {
 });
 
 
-initializeGrid(50, 50);
+initializeGrid(20, 20);
 
 
 function color(){
     let cells = document.querySelectorAll('.grid-cell');
     cells.forEach(cell => cell.addEventListener('mouseover', e => {
-        document.getElementById(e.target.id).setAttribute("style", "margin: 0px; height: 100%; width: 100%; background-color: black;");
+        let active = document.getElementById(e.target.id);
+        let styles = active.getAttribute('style');
+        if (!styles.includes('hsl')){
+            active.setAttribute("style", `margin: 0px; height: 100%; width: 100%; background-color: hsl(${Math.floor(Math.random() * 361)}, ${Math.floor(Math.random() * 51) + 50}%, 90%);`);
+        }
+        else {
+            const pattern = /\d+/g;
+            const attributeNums = styles.match(pattern);
+            let length = attributeNums.length;
+            const hsl1 = attributeNums[length - 3];
+            const hsl2 = attributeNums[length - 2];
+            const hsl3 = attributeNums[length - 1];
+            active.setAttribute("style", `margin: 0px; height: 100%; width: 100%; background-color: hsl(${hsl1}, ${hsl2}%, ${hsl3 - 10}%);`);
+        }
     }));
 }
